@@ -1,0 +1,353 @@
+{
+  "info": {
+    "_postman_id": "9e650307-23fb-46ff-b76b-f500f9792591",
+    "name": "E-Commerce API Testing",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "56416575",
+    "_collection_link": "https://go.postman.co/collection/56416575-9e650307-23fb-46ff-b76b-f500f9792591?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "Get Product By ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Status Code\r",
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "// Product ID Validation\r",
+                  "pm.test(\"Product ID is 1\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.id).to.eql(1);\r",
+                  "});\r",
+                  "\r",
+                  "// Product Title Exists\r",
+                  "pm.test(\"Product Title Exists\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.title).to.not.be.empty;\r",
+                  "});\r",
+                  "\r",
+                  "// Product Price Exists\r",
+                  "pm.test(\"Product Price Exists\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.price).to.be.a(\"number\");\r",
+                  "});\r",
+                  "\r",
+                  "// Category Exists\r",
+                  "pm.test(\"Category Exists\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.category).to.not.be.empty;\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/products/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "products",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Product",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Verify Status Code\r",
+                  "pm.test(\"Status code is 201\", function () {\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "});\r",
+                  "\r",
+                  "// Verify Product Created\r",
+                  "pm.test(\"Product Created Successfully\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.id).to.exist;\r",
+                  "});\r",
+                  "\r",
+                  "// Verify Title\r",
+                  "pm.test(\"Title is Correct\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.title).to.eql(\"Playwright Automation Book\");\r",
+                  "});\r",
+                  "\r",
+                  "// Verify Price\r",
+                  "pm.test(\"Price is Correct\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.price).to.eql(499);\r",
+                  "});\r",
+                  "\r",
+                  "// Verify Category\r",
+                  "pm.test(\"Category is Correct\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.category).to.eql(\"books\");\r",
+                  "});\r",
+                  "\r",
+                  "// Save Product ID for later use\r",
+                  "const jsonData = pm.response.json();\r",
+                  "pm.environment.set(\"productId\", jsonData.id);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"title\": \"Playwright Automation Book\",\r\n    \"price\": 499,\r\n    \"description\": \"API Automation Testing\",\r\n    \"image\": \"https://i.pravatar.cc\",\r\n    \"category\": \"books\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "products"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Product",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Verify Status Code\r",
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "// Parse Response\r",
+                  "const jsonData = pm.response.json();\r",
+                  "\r",
+                  "// Verify Product ID Exists\r",
+                  "pm.test(\"Product ID exists\", function () {\r",
+                  "    pm.expect(jsonData.id).to.exist;\r",
+                  "});\r",
+                  "\r",
+                  "// Verify Updated Title\r",
+                  "pm.test(\"Title updated successfully\", function () {\r",
+                  "    pm.expect(jsonData.title).to.eql(\"Updated Playwright Automation Book\");\r",
+                  "});\r",
+                  "\r",
+                  "// Verify Updated Price\r",
+                  "pm.test(\"Price updated successfully\", function () {\r",
+                  "    pm.expect(jsonData.price).to.eql(599);\r",
+                  "});\r",
+                  "\r",
+                  "// Verify Updated Category\r",
+                  "pm.test(\"Category is books\", function () {\r",
+                  "    pm.expect(jsonData.category).to.eql(\"books\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"title\": \"Updated Playwright Automation Book\",\r\n    \"price\": 599,\r\n    \"description\": \"Updated API Automation Testing\",\r\n    \"image\": \"https://i.pravatar.cc\",\r\n    \"category\": \"books\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/products/{{productId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "products",
+                "{{productId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Product",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Verify Status Code\r",
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "// Verify Response Time\r",
+                  "pm.test(\"Response time is less than 1000 ms\", function () {\r",
+                  "    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+                  "});\r",
+                  "\r",
+                  "// Verify Content-Type\r",
+                  "pm.test(\"Content-Type is application/json\", function () {\r",
+                  "    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+                  "});\r",
+                  "\r",
+                  "// Parse JSON response safely\r",
+                  "let jsonData = {};\r",
+                  "\r",
+                  "try {\r",
+                  "    jsonData = pm.response.json();\r",
+                  "} catch (e) {\r",
+                  "    jsonData = {};\r",
+                  "}\r",
+                  "\r",
+                  "// Verify response is received\r",
+                  "pm.test(\"Response received\", function () {\r",
+                  "    pm.expect(jsonData).to.be.an(\"object\");\r",
+                  "});\r",
+                  "\r",
+                  "// Verify ID if present\r",
+                  "pm.test(\"Deleted Product ID is present (if returned)\", function () {\r",
+                  "    if (jsonData.id !== undefined) {\r",
+                  "        pm.expect(jsonData.id).to.exist;\r",
+                  "    } else {\r",
+                  "        console.log(\"API did not return an ID in DELETE response.\");\r",
+                  "    }\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"id\": 21,\r\n    \"title\": \"Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops\",\r\n    \"price\": 109.95,\r\n    \"description\": \"Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday\",\r\n    \"image\": \"https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png\",\r\n    \"category\": \"men's clothing\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/products/{{productId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "products",
+                "{{productId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Get All Products",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Verify Status Code\r",
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "// Verify Response Time\r",
+              "pm.test(\"Response time is less than 1000 ms\", function () {\r",
+              "    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+              "});\r",
+              "\r",
+              "// Verify Content-Type\r",
+              "pm.test(\"Content-Type is application/json\", function () {\r",
+              "    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+              "});\r",
+              "\r",
+              "// Verify Response is not empty\r",
+              "pm.test(\"Response contains products\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.length).to.be.above(0);\r",
+              "});\r",
+              "\r",
+              "// Verify First Product has ID\r",
+              "pm.test(\"First product has ID\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData[0]).to.have.property(\"id\");\r",
+              "});\r",
+              "\r",
+              "// Verify First Product has Title\r",
+              "pm.test(\"First product has Title\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData[0]).to.have.property(\"title\");\r",
+              "});\r",
+              "\r",
+              "// Verify First Product has Price\r",
+              "pm.test(\"First product has Price\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData[0]).to.have.property(\"price\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "products"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

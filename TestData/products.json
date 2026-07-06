@@ -1,0 +1,14 @@
+[
+  {
+    "title": "iPhone 16",
+    "price": 999,
+    "description": "Apple smartphone",
+    "category": "electronics"
+  },
+  {
+    "title": "Samsung Galaxy S25",
+    "price": 899,
+    "description": "Samsung smartphone",
+    "category": "electronics"
+  }
+]

@@ -1,0 +1,12 @@
+# Node modules
+node_modules/
+
+# Newman HTML reports
+Reports/
+
+# Postman local files
+.postman/
+postman/
+
+# Log files
+*.log
