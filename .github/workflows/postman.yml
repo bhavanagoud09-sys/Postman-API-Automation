@@ -1,42 +1,6 @@
-name: Postman API Tests
-
-on:
-  push:
-    branches: [ main, master ]
-
-  pull_request:
-    branches: [ main, master ]
-
-  workflow_dispatch:
-
-jobs:
-  api-tests:
-
-    runs-on: ubuntu-latest
-
-    steps:
-
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Install Dependencies
-        run: npm install
-
-      - name: Run Newman Collection
-        run: |
-          npx newman run Collections/DummyAPI.postman_collection.json \
-          -e Environment/QA.postman_environment.json \
-          -r cli,htmlextra \
-          --reporter-htmlextra-export Reports/NewmanReport.html
-
-      - name: Upload Newman Report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: Postman-Newman-Report
-          path: Reports/NewmanReport.html
+- name: Run Newman Collection
+  run: |
+    npx newman run "Collections/E-Commerce API Testing.postman_collection.json" \
+    -e "Environment/QA Environment.postman_environment.json" \
+    -r cli,htmlextra \
+    --reporter-htmlextra-export Reports/API_Report.html
