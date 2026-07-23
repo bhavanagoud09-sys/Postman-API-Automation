@@ -66,7 +66,7 @@ using JavaScript test scripts, Environment Variables, API Chaining, Newman CLI, 
 | Postman | API Testing |
 | Newman | CLI Execution |
 | JavaScript | Assertions |
-| FakeStore API | Test API |
+| DummyJSON | Test API |
 | Git | Version Control |
 | GitHub | Repository Hosting |
 
